@@ -20,5 +20,5 @@ from travelpart.views import TravelOutput,output
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', output),
-    url(r'^send/$', TravelOutput)
+    url(r'^$', TravelOutput)
 ]

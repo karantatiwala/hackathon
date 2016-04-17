@@ -1,0 +1,50 @@
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link href="/static/typeahead.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link href="/static/typeahead.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/travelx.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!-- Optional theme -->
+    <title>T</title>
+</head>
+<body>
+<div class="col-md-4">
+  <br /><br />
+  <div class="container clearfix">
+  <div class='col-md-2'></div>
+  <div class="col-md-8">
+    <div >
+      {% for i in data %}
+      <div class="panel panel-default">
+        <div class="text-center panel-heading"><h1>Price Range:{{i.high_estimate}}-{{i.low_estimate}}</h1></div>
+          <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><small>Cab Type</small></th>
+                        <th><small>Time</small></th>
+                        <th><small>Distance  </small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><small>{{i.localized_display_name}}</small></td>
+                        <td><small>{{i.duration}}min</small></td>
+                        <td><small>{{i.distance}}Km</small></td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

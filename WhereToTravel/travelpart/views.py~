@@ -35,6 +35,12 @@ def GoogPlac(lat,lng,radius,types,key):
   jsonData = json.loads(jsonRaw)
   return jsonData
 
+#This is a helper to grab the Json data that I want in a list
+def IterJson(place):
+  x = [place['name'], place['reference'], place['geometry']['location']['lat'], 
+         place['geometry']['location']['lng'], place['vicinity']]
+  return x
+
 
 
 def getPlaces(Location):

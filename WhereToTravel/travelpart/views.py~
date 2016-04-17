@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 from googleplaces import GooglePlaces,types,lang
 places={}
-search_id=""
 GOOGLE_API_KEY='AIzaSyCbx8G_jSaL_xs1nHdOPvefocqV7KDQKHo'
 
 import urllib, json
@@ -31,31 +30,28 @@ def GoogPlac(lat,lng,radius,types,key):
   print(MyUrl)
   response = urllib.urlopen(MyUrl)
   jsonRaw = response.read()
-  print(jsonRaw)
-  jsonData = json.loads(jsonRaw)
+  jsonData = simplejson.loads(jsonRaw)
   return jsonData
-
-#This is a helper to grab the Json data that I want in a list
-def IterJson(place):
-  x = [place['name'], place['reference'], place['geometry']['location']['lat'], 
-         place['geometry']['location']['lng'], place['vicinity']]
-  return x
 
 
 
 def getPlaces(Location):
-	print(Location)
+	
 	google_places = GooglePlaces(GOOGLE_API_KEY)
-	query_result = google_places.nearby_search(location=str(Location), keyword="landmarks",radius=20000, types=[types.TYPE_FOOD])#types.TYPE_zoo,types.TYPE_natural_feature,types.TYPE_city_hall])
-	print(query_result)	
+	query_result = google_places.nearby_search(location=str(Location), keyword="landmarks",radius=20000, types=[types.TYPE_FOOD])#types.TYPE_zoo,types.TYPE_natural_feature,types.TYPE_city_hall])		
 	return query_result
 def TravelOutput(request) :
 	if (request.method == 'POST'):
+		context=[]
 		search_id = request.POST.get('textfield', None)
-		lon,lat=get_coordinates(search_id, from_sensor=False)
-		places=GoogPlac(lon, lat, 20000,'restaurant',' AIzaSyCbx8G_jSaL_xs1nHdOPvefocqV7KDQKHo')		
-		print(places)
-		return render(request, 'index.html', {})
+		startlon,startlat=get_coordinates(search_id, from_sensor=False)
+		
+		places=GoogPlac(startlon,startlat, 20000,'landmarks',' AIzaSyCbx8G_jSaL_xs1nHdOPvefocqV7KDQKHo')		
+		print(places['results'][1])
+		for i in places['results']:
+			context.append({'name':i[u'name'],'address':i[u'vicinity'],'geolat':i[u'geometry'][u'location'][u'lat'],'geolng':i[u'geometry'][u'location'][u'lng'],'search':search_id})	
+			
+		return render(request, 'detail.html', {'context':context})
 def output(request):
 	return render(request, 'index.html', {})
 

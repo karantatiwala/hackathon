@@ -1,0 +1,33 @@
+
+<html>
+<head>
+  
+    <title>Where To Go</title>
+</head>
+<body>
+<div class="col-md-4">
+  <br /><br />
+  <div class="container clearfix">
+  <div class='col-md-2'></div>
+  <div class="col-md-8">
+    <div >
+      {% for i in context %}
+      <div class="panel panel-default">
+        <a href="/Travel/{{i.geolat}}/{{i.geolng}}"><h1>{{i.name}}</h1></a>
+          <div class="panel-body">
+            <table class="table table-hover">
+                
+                    <tr>
+                	<td><small>name:{{i.name}}</small></td>
+                        	       	
+                        <td><small>address:{{i.address}}</small></td>
+                        </tr>
+                </table>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

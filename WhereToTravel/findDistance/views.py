@@ -1,6 +1,5 @@
 from django.conf import settings
-from googlemaps import GoogleMaps
-from travelpart.view import search_id
+from travelpart.views import search_id
 if not settings.configured:
     settings.configure()
 import json
@@ -12,6 +11,7 @@ from django.shortcuts import get_object_or_404, render
 import requests
 from lxml import html
 from BeautifulSoup import BeautifulSoup
+GOOGLE_API_KEY='AIzaSyCbx8G_jSaL_xs1nHdOPvefocqV7KDQKHo'
 #from busutil import *
 googleGeocodeUrl = 'http://maps.googleapis.com/maps/api/geocode/json?'
 #def calcuatefare(n):
@@ -20,28 +20,26 @@ googleGeocodeUrl = 'http://maps.googleapis.com/maps/api/geocode/json?'
 #    else:
 #        return str(100+(13*(n-4)))
 
-def cab(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect('/')
+def cab(request,lat,lng):
+    print("strin1",search_id)
     startlat,startlong=get_coordinates(str(search_id),from_sensor=False)
-    dstlat,dstlong=get_coordinates(str(dst),from_sensor=False)
-#    gdis=googlemaps.Client(key='AIzaSyBcvocj_-OQspLCSu-L6FwNw81ttKbWBxQ')
-#    distance=gdis.distance_matrix(src,dst)
-#    dis=distance['rows'][0]['elements'][0]['distance']['value']/100
-#    price=calcuatefare(dis)
-    lat,long=get_coordinates("J.L.N Marg,Malviya Nagar, Jaipur",from_sensor=False)
-    lat2,long2=get_coordinates("lnmiit, Jaipur",from_sensor=False)
+    print("string",startlat,startlong)
+    dstlat,dstlong=float(lat),float(lng)
     url = 'https://api.uber.com/v1/estimates/price'
     parameters = {
-        'server_token': 'YcSR2FOOfJMtreWpBeDqeyjDmm8Hj1pSh1ZnQP9h',
+        'server_token': 'SYcSQ4z0VKulQ3gXthdbDSw8f1O2qsza7FQrv7kI',
         'start_latitude': startlat,
         'start_longitude': startlong,
         'end_latitude': dstlat,
         'end_longitude':dstlong,
     }
     response = requests.get(url, params=parameters)
+    print(response)
     data = response.json()
+    print(data)
     return render(request,'cab.html',{'data':data['prices']})
+
+
 def get_coordinates(query, from_sensor=False):
     query = query.encode('utf-8')
     url = 'https://api.uber.com/v1/estimates/price'

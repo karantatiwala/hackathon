@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from travelpart.views import TravelOutput,output
-
+from findDistance.views import cab
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', output),
-    url(r'^send/$', TravelOutput)
+    url(r'^Places/$', TravelOutput),
+    url(r'^Travel/(?P<lat>\d+\.\d+)/(?P<lng>\d+\.\d+)/$', cab)
 ]
